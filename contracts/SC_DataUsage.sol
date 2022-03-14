@@ -59,4 +59,8 @@ struct DataUsage {
     string servicePurpose;
     string  operation;
     string[]  personalData;
+
+    // "name" => "Bob"
+    // "phone" => "1231241241" 
+    mapping (string => string) personalData1;
 }
