@@ -1,0 +1,253 @@
+{
+	"compiler": {
+		"version": "0.8.7+commit.e28d00a7"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_actorID",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_userID",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_serviceName",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_servicePurpose",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_operation",
+						"type": "string"
+					},
+					{
+						"internalType": "string[]",
+						"name": "_personalData",
+						"type": "string[]"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "actorAddress",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "string",
+						"name": "actorID",
+						"type": "string"
+					},
+					{
+						"indexed": true,
+						"internalType": "string",
+						"name": "userID",
+						"type": "string"
+					},
+					{
+						"components": [
+							{
+								"internalType": "string",
+								"name": "actorID",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "userID",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "serviceName",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "servicePurpose",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "operation",
+								"type": "string"
+							},
+							{
+								"internalType": "string[]",
+								"name": "personalData",
+								"type": "string[]"
+							}
+						],
+						"indexed": false,
+						"internalType": "struct DataUsage",
+						"name": "dataUsage",
+						"type": "tuple"
+					}
+				],
+				"name": "UseData",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "actorAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "actorID",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getContractAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "retrieveDataUsage",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "string",
+								"name": "actorID",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "userID",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "serviceName",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "servicePurpose",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "operation",
+								"type": "string"
+							},
+							{
+								"internalType": "string[]",
+								"name": "personalData",
+								"type": "string[]"
+							}
+						],
+						"internalType": "struct DataUsage",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "userID",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {
+				"constructor": {
+					"details": "generate a new contract"
+				},
+				"getContractAddress()": {
+					"details": "get the current contract address"
+				},
+				"retrieveDataUsage()": {
+					"details": "get the data usage"
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"notice": "Actor use some data of a User Subject, generate the smart contract",
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/SM_DataUsage.sol": "DataUsageContract"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/SM_DataUsage.sol": {
+			"keccak256": "0x2830da2f637a84d775f8c8837dc72ab4844a9e7a21578f819432cbd56c81537e",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://c00ee0426331d124252938aa730f3eb5382ec6d64be9d6a9a26f0a702bc6aa46",
+				"dweb:/ipfs/QmXC1yswtw2fT96UEKnnQgPXBA8SCb94ZL6v5EkNhM4PW3"
+			]
+		}
+	},
+	"version": 1
+}

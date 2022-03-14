@@ -1,0 +1,293 @@
+{
+	"compiler": {
+		"version": "0.8.7+commit.e28d00a7"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_dataUsageContractAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "_actorID",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_userID",
+						"type": "string"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "userAddress",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "dataUsageContractAddress",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "string",
+						"name": "actorID",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "userID",
+						"type": "string"
+					}
+				],
+				"name": "DeployAgreement",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "userAddress",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "dataUsageContractAddress",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "string",
+						"name": "actorID",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "userID",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "bool",
+						"name": "consent",
+						"type": "bool"
+					}
+				],
+				"name": "UserAgree",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "actorID",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "consent",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "dataUsageContractAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getContractAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "retrieveDataUsage",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "string",
+								"name": "actorID",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "userID",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "serviceName",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "servicePurpose",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "operation",
+								"type": "string"
+							},
+							{
+								"internalType": "string[]",
+								"name": "personalData",
+								"type": "string[]"
+							}
+						],
+						"internalType": "struct DataUsage",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "userAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "userID",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bool",
+						"name": "_consent",
+						"type": "bool"
+					}
+				],
+				"name": "vote",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {
+				"constructor": {
+					"details": "generate a new contract"
+				},
+				"getContractAddress()": {
+					"details": "get the current contract address"
+				},
+				"retrieveDataUsage()": {
+					"details": "The Retrieve function uses the address of a GDPR compliance contract to provide a data subject information recorded by an actor in the Blockchain"
+				},
+				"vote(bool)": {
+					"details": "submits a data subject’s votes (positive/negative consent) to the Blockchain"
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"notice": "Actor use some data of a User Subject, generate the smart contract",
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/SM_Agreement.sol": "AgreementContract"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/SM_Agreement.sol": {
+			"keccak256": "0x9eab50e751e1d676e367e76d778410410fbfc1682309d8453bbea7d172b60106",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://28ebe30ee54d1d699d8a4e64286512de4768dcfa4512c552d20307c734f929d2",
+				"dweb:/ipfs/QmXxmV2sQVz3XF1fET9MUoyKJGHyQaLdXy7CEJnhc1ty2G"
+			]
+		},
+		"contracts/SM_DataUsage.sol": {
+			"keccak256": "0x2830da2f637a84d775f8c8837dc72ab4844a9e7a21578f819432cbd56c81537e",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://c00ee0426331d124252938aa730f3eb5382ec6d64be9d6a9a26f0a702bc6aa46",
+				"dweb:/ipfs/QmXC1yswtw2fT96UEKnnQgPXBA8SCb94ZL6v5EkNhM4PW3"
+			]
+		}
+	},
+	"version": 1
+}

@@ -2,50 +2,61 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 
-/**
- * @title Owner
- * @dev Set & change owner
+/** 
+* Actor use some data of a User Subject, generate the smart contract
  */
-contract DataUsage {
+contract DataUsageContract {
 
-    address private owner;
+    address public actorAddress;
+    string public actorID;
+    string public userID;
+    DataUsage private dataUsage;
+
     
     // event for EVM logging
-    event OwnerSet(address indexed oldOwner, address indexed newOwner);
-    
-    // modifier to check if caller is owner
-    modifier isOwner() {
-        // If the first argument of 'require' evaluates to 'false', execution terminates and all
-        // changes to the state and to Ether balances are reverted.
-        // This used to consume all gas in old EVM versions, but not anymore.
-        // It is often a good idea to use 'require' to check if functions are called correctly.
-        // As a second argument, you can also provide an explanation about what went wrong.
-        require(msg.sender == owner, "Caller is not owner");
-        _;
-    }
+    event UseData(address indexed actorAddress, string indexed actorID, string indexed userID, DataUsage dataUsage);
     
     /**
-     * @dev Set contract deployer as owner
+     * @dev generate a new contract
      */
-    constructor() {
-        owner = msg.sender; // 'msg.sender' is sender of current call, contract deployer for a constructor
-        emit OwnerSet(address(0), owner);
+    constructor(string memory _actorID, string memory _userID) {
+        actorAddress = msg.sender; // 'msg.sender' is sender of current call, contract deployer for a constructor
+        actorID = _actorID;
+        userID = _userID;
+        dataUsage = DataUsage(_actorID,_userID,_serviceName ,_servicePurpose,_operation ,_personalData);
+
+        // Log the deployment of DataUsage contract
+        emit UseData(actorAddress, actorID, userID, dataUsage);
     }
 
     /**
-     * @dev Change owner
-     * @param newOwner address of new owner
-     */
-    function changeOwner(address newOwner) public isOwner {
-        emit OwnerSet(owner, newOwner);
-        owner = newOwner;
+    *  Using this address, an actor can access the contract and execute function (Gα) based on its purpose of data processing.
+    */
+    function dataProcess (string memory _serviceName, string memory _servicePurpose, string memory _operation, string[] memory _personalData) public {
+
     }
 
     /**
-     * @dev Return owner address 
-     * @return address of owner
+     * @dev get the data usage
      */
-    function getOwner() external view returns (address) {
-        return owner;
+    function retrieveDataUsage() public view returns (DataUsage memory){
+        return dataUsage;
     }
+
+    /**
+     * @dev get the current contract address
+     */
+    function getContractAddress() public view returns (address) {
+        return address(this);
+    }
+}
+
+
+struct DataUsage {
+    string  actorID;
+    string  userID;
+    string  serviceName;
+    string servicePurpose;
+    string  operation;
+    string[]  personalData;
 }

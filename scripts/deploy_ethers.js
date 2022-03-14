@@ -3,7 +3,7 @@
     try {
         console.log('Running deployWithEthers script...')
     
-        const contractName = 'Storage' // Change this for other contract
+        const contractName = 'DataUsageContract' // Change this for other contract
         const constructorArgs = []    // Put constructor args (if any) here for your contract
 
         // Note that the script needs the ABI which is generated from the compilation artifact.
@@ -22,6 +22,9 @@
     
         // The contract is NOT deployed yet; we must wait until it is mined
         await contract.deployed()
+
+        // 当前调用的场景是actor在处理数据的时候
+        var dataUsage = contract.retrieveDataUsage.call();
         console.log('Deployment successful.')
     } catch (e) {
         console.log(e.message)
