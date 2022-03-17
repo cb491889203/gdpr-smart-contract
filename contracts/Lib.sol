@@ -31,6 +31,8 @@ struct LogContent {
     address actorAddress; 
     address userAddress;
     uint usageID;
+    string serviceName;
+    string operation;
     // ["name", "gender"]
     string[] processedData;
 }

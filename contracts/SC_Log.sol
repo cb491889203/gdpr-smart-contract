@@ -21,7 +21,7 @@ contract LogContract {
 
     
     // event for EVM logging
-    event LogDataProcess(address actorAddress, address userAddress, uint usageID, string[] processedData);
+    event LogDataProcess(address actorAddress, address userAddress, uint usageID, string serviceName, string operation, string[] processedData);
     
     /**
      * @dev generate a new contract
@@ -47,22 +47,22 @@ contract LogContract {
      *  information includes the address of the actor (cloud provider)
      *  act involved, the executed operation α, and the data d that has been processed. T
      */
-    function log(address actorAddress, address userAddress, uint usageID, string[] memory processedData) public {
+    function log(address actorAddress, address userAddress, uint usageID, string memory serviceName, string memory operation, string[] memory processedData) public {
 
-        logs[usageID] = LogContent(actorAddress, userAddress, usageID, processedData);
+        logs[usageID] = LogContent(actorAddress, userAddress, usageID, serviceName, operation, processedData);
 
         // Notify user subject
-        attestation(actorAddress, userAddress, usageID, processedData);
+        attestation(actorAddress, userAddress, usageID, serviceName, operation, processedData);
 
     }
 
-    function attestation(address actorAddress, address userAddress, uint usageID, string[] memory processedData) internal {
+    function attestation(address actorAddress, address userAddress, uint usageID, string memory serviceName, string memory operation, string[] memory processedData) internal {
         // send event to User Subject
-        emit LogDataProcess(actorAddress, userAddress, usageID, processedData);
+        emit LogDataProcess(actorAddress, userAddress, usageID, serviceName, operation, processedData);
 
         // Call verification contract verify() to check the violation
-        VerificationContract verificationContract = VerificationContract(dataUsageContractAddress, agreementContractAddress);
-        verificationContract.verify(actorAddress, userAddress, usageID, processedData);
+        VerificationContract verificationContract = VerificationContract(dataUsageContractAddress, agreementContractAddress, address(this));
+        verificationContract.verify(actorAddress, userAddress, usageID, serviceName, operation, processedData);
     }
 
     function retrieveLog(uint usageID) public returns (LogContent memory) {

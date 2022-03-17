@@ -24,7 +24,7 @@ contract VerificationContract {
 
     uint256[] violets;
 
-    function verify(address actorAddress, address userAddress, uint usageID, string[] memory processedData) public returns (uint256){
+    function verify(address actorAddress, address userAddress, uint usageID, string memory serviceName, string memory operation, string[] memory processedData) public returns (uint256){
 
         for (uint i=1; i <= logID; i++) {
             address actorID = lc.retrieveLog(i).actorID;
