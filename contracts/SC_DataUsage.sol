@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 
 pragma solidity >=0.7.0 <0.9.0;
-import "./Lib.sol"
+import "./Lib.sol";
 
 /** 
 * Actor use some data of a User Subject, generate the smart contract
