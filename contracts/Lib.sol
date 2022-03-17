@@ -6,12 +6,12 @@ pragma solidity >=0.7.0 <0.9.0;
 data usage of actor.
 */
 struct DataUsage {
-
     address  actorAddress;
     address  userAddress;
     string  serviceName;
     string servicePurpose;
     string  operation;
+    // ["name", "gender", "address"]
     string[]  personalData;
 }
 
@@ -31,5 +31,6 @@ struct LogContent {
     address actorAddress; 
     address userAddress;
     uint usageID;
+    // ["name", "gender"]
     string[] processedData;
 }

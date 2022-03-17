@@ -2,6 +2,8 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 import "./SC_DataUsage.sol";
+import "./SC_Verification.sol";
+import "./SC_Agreement.sol";
 import "./Lib.sol";
 
 /** 
@@ -11,21 +13,25 @@ contract LogContract {
 
     address private creator;
     address private dataUsageContractAddress;
+    address private agreementContractAddress;
     DataUsageContract private dataUsageContract; 
+    AgreementContract private agreementContract;
     // Store all the logs 
     mapping(uint => LogContent) private logs;
 
     
     // event for EVM logging
-    event LogDataProcess(address actorAddress, address userAddress, uint usageID, DataUsage dataUsage, string[] processedData);
+    event LogDataProcess(address actorAddress, address userAddress, uint usageID, string[] processedData);
     
     /**
      * @dev generate a new contract
      */
-    constructor(address _dataUsageContractAddress) {
+    constructor(address _dataUsageContractAddress, address _agreementContractAddress) {
         creator = msg.sender;
         dataUsageContractAddress = _dataUsageContractAddress;
+        agreementContractAddress = _agreementContractAddress;
         dataUsageContract = DataUsageContract(dataUsageContractAddress);
+        agreementContract = AgreementContract(agreementContractAddress);
     }
 
     /**
@@ -42,21 +48,24 @@ contract LogContract {
      *  act involved, the executed operation α, and the data d that has been processed. T
      */
     function log(address actorAddress, address userAddress, uint usageID, string[] memory processedData) public {
-        // Retrieve dataUsage from the DataUsageContract
-        DataUsage memory dataUsage = dataUsageContract.retrieveDataUsage(usageID);
-
-        require (dataUsage.userAddress != address(0x0), "Can't find this data usage record with the usageID");
-        require (actorAddress == dataUsage.actorAddress, "The actor doesn't belong to this data usage record");
-        require (userAddress == dataUsage.userAddress, "The user doesn't belong to this data usage record");
 
         logs[usageID] = LogContent(actorAddress, userAddress, usageID, processedData);
 
         // Notify user subject
-        attestation(actorAddress, userAddress, usageID, dataUsage, processedData);
+        attestation(actorAddress, userAddress, usageID, processedData);
+
     }
 
-    function attestation(address actorAddress, address userAddress, uint usageID, DataUsage memory dataUsage, string[] memory processedData) internal {
+    function attestation(address actorAddress, address userAddress, uint usageID, string[] memory processedData) internal {
         // send event to User Subject
-        emit LogDataProcess(actorAddress, userAddress, usageID, dataUsage, processedData);
+        emit LogDataProcess(actorAddress, userAddress, usageID, processedData);
+
+        // Call verification contract verify() to check the violation
+        VerificationContract verificationContract = VerificationContract(dataUsageContractAddress, agreementContractAddress);
+        verificationContract.verify(actorAddress, userAddress, usageID, processedData);
+    }
+
+    function retrieveLog(uint usageID) public returns (LogContent memory) {
+        return logs[usageID];
     }
 }
