@@ -31,5 +31,5 @@ struct LogContent {
     address actorAddress; 
     address userAddress;
     uint usageID;
-    DataUsage dataUsage;
+    string[] processedData;
 }

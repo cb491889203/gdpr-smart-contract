@@ -13,11 +13,11 @@ contract LogContract {
     address private dataUsageContractAddress;
     DataUsageContract private dataUsageContract; 
     // Store all the logs 
-    LogContent[] private logs;
+    mapping(uint => LogContent) private logs;
 
     
     // event for EVM logging
-    event LogDataProcess(address actorAddress, address userAddress, uint usageID, DataUsage dataUsage);
+    event LogDataProcess(address actorAddress, address userAddress, uint usageID, DataUsage dataUsage, string[] processedData);
     
     /**
      * @dev generate a new contract
@@ -41,7 +41,7 @@ contract LogContract {
      *  information includes the address of the actor (cloud provider)
      *  act involved, the executed operation α, and the data d that has been processed. T
      */
-    function log(address actorAddress, address userAddress, uint usageID) public {
+    function log(address actorAddress, address userAddress, uint usageID, string[] memory processedData) public {
         // Retrieve dataUsage from the DataUsageContract
         DataUsage memory dataUsage = dataUsageContract.retrieveDataUsage(usageID);
 
@@ -49,14 +49,14 @@ contract LogContract {
         require (actorAddress == dataUsage.actorAddress, "The actor doesn't belong to this data usage record");
         require (userAddress == dataUsage.userAddress, "The user doesn't belong to this data usage record");
 
-        logs.push(LogContent(actorAddress, userAddress, usageID, dataUsage));
+        logs[usageID] = LogContent(actorAddress, userAddress, usageID, processedData);
 
         // Notify user subject
-        attestation(actorAddress, userAddress, usageID, dataUsage);
+        attestation(actorAddress, userAddress, usageID, dataUsage, processedData);
     }
 
-    function attestation(address actorAddress, address userAddress, uint usageID, DataUsage memory dataUsage) internal {
+    function attestation(address actorAddress, address userAddress, uint usageID, DataUsage memory dataUsage, string[] memory processedData) internal {
         // send event to User Subject
-        emit LogDataProcess(actorAddress, userAddress, usageID, dataUsage);
+        emit LogDataProcess(actorAddress, userAddress, usageID, dataUsage, processedData);
     }
 }
