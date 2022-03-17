@@ -2,6 +2,7 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 import "./SC_DataUsage.sol";
+import "./Lib.sol"
 
 /** 
 * Actor use some data of a User Subject, generate the smart contract
@@ -11,12 +12,8 @@ contract AgreementContract {
     address private creator;
     address private dataUsageContractAddress;
     DataUsageContract private dataUsageContract;
+    mapping(uint => Vote) private votes;
 
-    struct Vote {
-        address userAddress;
-        uint usageID;
-        bool consent;
-    }
     
     // event for EVM logging
     event UserVote(address indexed userAddress, address indexed actorAddress, uint indexed usageID, DataUsage dataUsage, bool consent);
@@ -40,8 +37,8 @@ contract AgreementContract {
     /**
      * @dev The Retrieve function uses the address of a GDPR compliance contract to provide a data subject information recorded by an actor in the Blockchain
      */
-    function retrieveDataUsage(uint usageID) public view returns (DataUsage memory) {
-        return dataUsageContract.retrieveDataUsage(usageID);
+    function retrieveVote(uint usageID) public view returns (Vote memory) {
+        return votes[usageID];
     }
 
     /**
@@ -54,6 +51,9 @@ contract AgreementContract {
 
         require (dataUsage.userAddress != address(0x0), "Can't find this data usage record with the usageID");
         require (msg.sender == dataUsage.userAddress, "The user doesn't belong to this data usage record");
+        require (votes[usageID].userAddress != address(0x0), "User have already vote for this data usage!");
+
+        votes[usageID] = Vote(dataUsage.userAddress, usageID, consent);
 
         // Log the user's vote of Agreement contract
         emit UserVote(msg.sender, dataUsage.actorAddress, usageID, dataUsage, consent);

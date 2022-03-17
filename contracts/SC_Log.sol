@@ -2,6 +2,7 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 import "./SC_DataUsage.sol";
+import "./Lib.sol"
 
 /** 
 *   It sends “actor ID”, “operation” and “processed personal data” and “service name” into the Blockchain.
@@ -14,12 +15,6 @@ contract LogContract {
     // Store all the logs 
     LogContent[] private logs;
 
-    struct LogContent {
-        address actorAddress; 
-        address userAddress;
-        uint usageID;
-        DataUsage dataUsage;
-    }
     
     // event for EVM logging
     event LogDataProcess(address actorAddress, address userAddress, uint usageID, DataUsage dataUsage);

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 
 pragma solidity >=0.7.0 <0.9.0;
+import "./Lib.sol"
 
 /** 
 * Actor use some data of a User Subject, generate the smart contract
@@ -25,7 +26,8 @@ contract DataUsageContract {
     /**
     *  Using this address, an actor can access the contract and execute function (Gα) based on its purpose of data processing.
     */
-    function useData (address actorAddress, address userAddress, string memory serviceName, string memory servicePurpose, string memory operation, string[] memory personalData) public returns (uint) {
+    function useData (address userAddress, string memory serviceName, string memory servicePurpose, string memory operation, string[] memory personalData) public returns (uint) {
+        address actorAddress = msg.sender;
         DataUsage memory dataUsage = DataUsage(actorAddress, userAddress, serviceName, servicePurpose, operation, personalData);       
         usageID++;
         dataUsages[usageID] = dataUsage;
@@ -51,13 +53,3 @@ contract DataUsageContract {
     }
 }
 
-
-struct DataUsage {
-
-    address  actorAddress;
-    address  userAddress;
-    string  serviceName;
-    string servicePurpose;
-    string  operation;
-    string[]  personalData;
-}
