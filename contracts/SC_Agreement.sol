@@ -1,42 +1,33 @@
 // SPDX-License-Identifier: GPL-3.0
 
 pragma solidity >=0.7.0 <0.9.0;
-import "./SM_DataUsage.sol";
+import "./SC_DataUsage.sol";
 
 /** 
 * Actor use some data of a User Subject, generate the smart contract
  */
 contract AgreementContract {
 
-    address public actorAddress;
-    address public userAddress;
-    address public dataUsageContractAddress;
-    bool public consent;
-
+    address private creator;
+    address private dataUsageContractAddress;
     DataUsageContract private dataUsageContract;
-    
-    // event for deploy this Agreement Contract
-    event DeployAgreement(address indexed userAddress, address indexed actorAddress, address indexed dataUsageContractAddress);
-    // event for EVM logging
-    event UserAgree(address indexed userAddress, address indexed dataUsageContractAddress, string indexed actorID, string userID, bool consent);
 
-    // modifier to check if caller is User
-    modifier isUser() {
-        require(msg.sender == userAddress, "Caller is not User");
-        _;
+    struct Vote {
+        address userAddress;
+        uint usageID;
+        bool consent;
     }
+    
+    // event for EVM logging
+    event UserVote(address indexed userAddress, address indexed actorAddress, uint indexed usageID, DataUsage dataUsage, bool consent);
     
     /**
      * @dev generate a new contract
      */
-    constructor(address blockHash, address _dataUsageContractAddress, address _actorAddress) {
-        userAddress = msg.sender;
-        actorAddress = _actorAddress;
+    constructor(address _dataUsageContractAddress) {
+        creator = msg.sender;
         dataUsageContractAddress = _dataUsageContractAddress; // 'msg.sender' is sender of current call, contract deployer for a constructor
         dataUsageContract = DataUsageContract(dataUsageContractAddress);
-        
-        // send the event
-        emit DeployAgreement(userAddress, actorAddress, dataUsageContractAddress);
     }
 
     /**
@@ -49,17 +40,22 @@ contract AgreementContract {
     /**
      * @dev The Retrieve function uses the address of a GDPR compliance contract to provide a data subject information recorded by an actor in the Blockchain
      */
-    function retrieveDataUsage() public view returns (DataUsage memory) {
-        return dataUsageContract.retrieveDataUsage();
+    function retrieveDataUsage(uint usageID) public view returns (DataUsage memory) {
+        return dataUsageContract.retrieveDataUsage(usageID);
     }
 
     /**
      * @dev submits a data subject’s votes (positive/negative consent) to the Blockchain
      */
-    function vote(bool _consent) public isUser {
-        consent = _consent;
+    function vote(uint usageID, bool consent) public {
+        
+        // Retrieve dataUsage from the DataUsageContract
+        DataUsage memory dataUsage = dataUsageContract.retrieveDataUsage(usageID);
 
-        // Log the user's consent of Agreement contract
-        emit UserAgree(userAddress, dataUsageContractAddress, actorID, userID, consent);
+        require (dataUsage.userAddress != address(0x0), "Can't find this data usage record with the usageID");
+        require (msg.sender == dataUsage.userAddress, "The user doesn't belong to this data usage record");
+
+        // Log the user's vote of Agreement contract
+        emit UserVote(msg.sender, dataUsage.actorAddress, usageID, dataUsage, consent);
     }
 }

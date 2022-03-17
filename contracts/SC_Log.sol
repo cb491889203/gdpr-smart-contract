@@ -1,39 +1,36 @@
 // SPDX-License-Identifier: GPL-3.0
 
 pragma solidity >=0.7.0 <0.9.0;
+import "./SC_DataUsage.sol";
 
 /** 
-* Actor use some data of a User Subject, generate the smart contract
- */
+*   It sends “actor ID”, “operation” and “processed personal data” and “service name” into the Blockchain.
+*/
 contract LogContract {
 
-    address public actorAddress;
-    address public dataUsageContractAddress;
-    string public actorID;
-    string public userID;
-    bool public consent;
+    address private creator;
+    address private dataUsageContractAddress;
+    DataUsageContract private dataUsageContract; 
+    // Store all the logs 
+    LogContent[] private logs;
 
-    // modifier to check if caller is Actor
-    modifier isActor() {
-        require(msg.sender == actorAddress, "Caller is not Actor");
-        _;
+    struct LogContent {
+        address actorAddress; 
+        address userAddress;
+        uint usageID;
+        DataUsage dataUsage;
     }
     
     // event for EVM logging
-    event UsserAgree(address indexed userAddress, address indexed dataUsageContractAddress, string indexed actorID, string userID, bool consent);
+    event LogDataProcess(address actorAddress, address userAddress, uint usageID, DataUsage dataUsage);
     
     /**
      * @dev generate a new contract
      */
-    constructor(address _dataUsageContractAddress, string memory _actorID, string memory _userID, bool _consent) {
-        userAddress = msg.sender;
-        dataUsageContractAddress = _dataUsageContractAddress; // 'msg.sender' is sender of current call, contract deployer for a constructor
-        actorID = _actorID;
-        userID = _userID;
-        consent = _consent;
-
-        // Log the deployment of Agreement contract
-        emit UsserAgree(userAddress, dataUsageContractAddress, actorID, userID, consent);
+    constructor(address _dataUsageContractAddress) {
+        creator = msg.sender;
+        dataUsageContractAddress = _dataUsageContractAddress;
+        dataUsageContract = DataUsageContract(dataUsageContractAddress);
     }
 
     /**
@@ -43,7 +40,28 @@ contract LogContract {
         return address(this);
     }
 
-    function log() public isActor {
+    /**
+     * @dev This function collects information about operations carried out in the container, thereby supporting a subset of the data usage relation set P0 ⊆ P
+     *  described in Def. 2, and submits it into the Blockchain. Such
+     *  information includes the address of the actor (cloud provider)
+     *  act involved, the executed operation α, and the data d that has been processed. T
+     */
+    function log(address actorAddress, address userAddress, uint usageID) public {
+        // Retrieve dataUsage from the DataUsageContract
+        DataUsage memory dataUsage = dataUsageContract.retrieveDataUsage(usageID);
 
+        require (dataUsage.userAddress != address(0x0), "Can't find this data usage record with the usageID");
+        require (actorAddress == dataUsage.actorAddress, "The actor doesn't belong to this data usage record");
+        require (userAddress == dataUsage.userAddress, "The user doesn't belong to this data usage record");
+
+        logs.push(LogContent(actorAddress, userAddress, usageID, dataUsage));
+
+        // Notify user subject
+        attestation(actorAddress, userAddress, usageID, dataUsage);
+    }
+
+    function attestation(address actorAddress, address userAddress, uint usageID, DataUsage memory dataUsage) internal {
+        // send event to User Subject
+        emit LogDataProcess(actorAddress, userAddress, usageID, dataUsage);
     }
 }

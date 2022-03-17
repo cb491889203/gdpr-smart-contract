@@ -7,40 +7,40 @@ pragma solidity >=0.7.0 <0.9.0;
  */
 contract DataUsageContract {
 
-    address public actorAddress;
-    string public actorID;
-    string public userID;
-    DataUsage private dataUsage;
+    address private creator;
+    uint private usageID = 0;
+    mapping(uint => DataUsage) private dataUsages;
 
     
     // event for EVM logging
-    event UseData(address indexed actorAddress, string indexed actorID, string indexed userID, DataUsage dataUsage);
+    event UseData(address indexed actorAddress, address indexed userAddress, uint indexed usageID, DataUsage dataUsage);
     
     /**
      * @dev generate a new contract
      */
-    constructor(string memory _actorID, string memory _userID) {
-        actorAddress = msg.sender; // 'msg.sender' is sender of current call, contract deployer for a constructor
-        actorID = _actorID;
-        userID = _userID;
-        dataUsage = DataUsage(_actorID,_userID,_serviceName ,_servicePurpose,_operation ,_personalData);
-
-        // Log the deployment of DataUsage contract
-        emit UseData(actorAddress, actorID, userID, dataUsage);
+    constructor() {
+        creator = msg.sender; // 'msg.sender' is sender of current call, contract deployer for a constructor
     }
 
     /**
     *  Using this address, an actor can access the contract and execute function (Gα) based on its purpose of data processing.
     */
-    function dataProcess (string memory _serviceName, string memory _servicePurpose, string memory _operation, string[] memory _personalData) public {
+    function useData (address actorAddress, address userAddress, string memory serviceName, string memory servicePurpose, string memory operation, string[] memory personalData) public returns (uint) {
+        DataUsage memory dataUsage = DataUsage(actorAddress, userAddress, serviceName, servicePurpose, operation, personalData);       
+        usageID++;
+        dataUsages[usageID] = dataUsage;
 
+        // Log the deployment of DataUsage contract
+        emit UseData(actorAddress, userAddress, usageID, dataUsage);
+
+        return usageID;
     }
 
     /**
      * @dev get the data usage
      */
-    function retrieveDataUsage() public view returns (DataUsage memory){
-        return dataUsage;
+    function retrieveDataUsage(uint _usageID) public view returns (DataUsage memory){
+        return dataUsages[_usageID];
     }
 
     /**
@@ -53,14 +53,11 @@ contract DataUsageContract {
 
 
 struct DataUsage {
-    string  actorID;
-    string  userID;
+
+    address  actorAddress;
+    address  userAddress;
     string  serviceName;
     string servicePurpose;
     string  operation;
     string[]  personalData;
-
-    // "name" => "Bob"
-    // "phone" => "1231241241" 
-    mapping (string => string) personalData1;
 }

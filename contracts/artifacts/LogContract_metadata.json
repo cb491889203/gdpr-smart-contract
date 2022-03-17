@@ -6,7 +6,13 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [],
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_dataUsageContractAddress",
+						"type": "address"
+					}
+				],
 				"stateMutability": "nonpayable",
 				"type": "constructor"
 			},
@@ -14,19 +20,19 @@
 				"anonymous": false,
 				"inputs": [
 					{
-						"indexed": true,
+						"indexed": false,
 						"internalType": "address",
 						"name": "actorAddress",
 						"type": "address"
 					},
 					{
-						"indexed": true,
+						"indexed": false,
 						"internalType": "address",
 						"name": "userAddress",
 						"type": "address"
 					},
 					{
-						"indexed": true,
+						"indexed": false,
 						"internalType": "uint256",
 						"name": "usageID",
 						"type": "uint256"
@@ -70,7 +76,7 @@
 						"type": "tuple"
 					}
 				],
-				"name": "UseData",
+				"name": "LogDataProcess",
 				"type": "event"
 			},
 			{
@@ -89,57 +95,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "_usageID",
-						"type": "uint256"
-					}
-				],
-				"name": "retrieveDataUsage",
-				"outputs": [
-					{
-						"components": [
-							{
-								"internalType": "address",
-								"name": "actorAddress",
-								"type": "address"
-							},
-							{
-								"internalType": "address",
-								"name": "userAddress",
-								"type": "address"
-							},
-							{
-								"internalType": "string",
-								"name": "serviceName",
-								"type": "string"
-							},
-							{
-								"internalType": "string",
-								"name": "servicePurpose",
-								"type": "string"
-							},
-							{
-								"internalType": "string",
-								"name": "operation",
-								"type": "string"
-							},
-							{
-								"internalType": "string[]",
-								"name": "personalData",
-								"type": "string[]"
-							}
-						],
-						"internalType": "struct DataUsage",
-						"name": "",
-						"type": "tuple"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
 						"internalType": "address",
 						"name": "actorAddress",
 						"type": "address"
@@ -150,34 +105,13 @@
 						"type": "address"
 					},
 					{
-						"internalType": "string",
-						"name": "serviceName",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "servicePurpose",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "operation",
-						"type": "string"
-					},
-					{
-						"internalType": "string[]",
-						"name": "personalData",
-						"type": "string[]"
-					}
-				],
-				"name": "useData",
-				"outputs": [
-					{
 						"internalType": "uint256",
-						"name": "",
+						"name": "usageID",
 						"type": "uint256"
 					}
 				],
+				"name": "log",
+				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			}
@@ -191,26 +125,22 @@
 				"getContractAddress()": {
 					"details": "get the current contract address"
 				},
-				"retrieveDataUsage(uint256)": {
-					"details": "get the data usage"
+				"log(address,address,uint256)": {
+					"details": "This function collects information about operations carried out in the container, thereby supporting a subset of the data usage relation set P0 ⊆ P  described in Def. 2, and submits it into the Blockchain. Such  information includes the address of the actor (cloud provider)  act involved, the executed operation α, and the data d that has been processed. T"
 				}
 			},
 			"version": 1
 		},
 		"userdoc": {
 			"kind": "user",
-			"methods": {
-				"useData(address,address,string,string,string,string[])": {
-					"notice": "Using this address, an actor can access the contract and execute function (Gα) based on its purpose of data processing."
-				}
-			},
-			"notice": "Actor use some data of a User Subject, generate the smart contract",
+			"methods": {},
+			"notice": "It sends “actor ID”, “operation” and “processed personal data” and “service name” into the Blockchain.",
 			"version": 1
 		}
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/SC_DataUsage.sol": "DataUsageContract"
+			"contracts/SC_Log.sol": "LogContract"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -230,6 +160,14 @@
 			"urls": [
 				"bzz-raw://6505bdc5fc6c62479e8742e925461af8d9d3d2b4f775c57616d2ef514931c21f",
 				"dweb:/ipfs/QmRHSubhP4RR2Rcr3EqKeBj9KFcx99Hcv1wNVCSSzDoo7H"
+			]
+		},
+		"contracts/SC_Log.sol": {
+			"keccak256": "0x74f4aaeaf5c211c068cc98e461bd973d787715764d7acccfe451eef349627f3f",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://a1e22569d6727bb8ab483035f768f727f719bbf9c48e2961e45aeabc7e939409",
+				"dweb:/ipfs/Qme72AXd9aEiMxeZ6V1bZqSboWBMrpjND9t9vUEwv7vUwQ"
 			]
 		}
 	},

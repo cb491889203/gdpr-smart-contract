@@ -11,16 +11,6 @@
 						"internalType": "address",
 						"name": "_dataUsageContractAddress",
 						"type": "address"
-					},
-					{
-						"internalType": "string",
-						"name": "_actorID",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "_userID",
-						"type": "string"
 					}
 				],
 				"stateMutability": "nonpayable",
@@ -38,51 +28,52 @@
 					{
 						"indexed": true,
 						"internalType": "address",
-						"name": "dataUsageContractAddress",
+						"name": "actorAddress",
 						"type": "address"
 					},
 					{
 						"indexed": true,
-						"internalType": "string",
-						"name": "actorID",
-						"type": "string"
+						"internalType": "uint256",
+						"name": "usageID",
+						"type": "uint256"
 					},
 					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "actorAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "userAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "string",
+								"name": "serviceName",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "servicePurpose",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "operation",
+								"type": "string"
+							},
+							{
+								"internalType": "string[]",
+								"name": "personalData",
+								"type": "string[]"
+							}
+						],
 						"indexed": false,
-						"internalType": "string",
-						"name": "userID",
-						"type": "string"
-					}
-				],
-				"name": "DeployAgreement",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": true,
-						"internalType": "address",
-						"name": "userAddress",
-						"type": "address"
-					},
-					{
-						"indexed": true,
-						"internalType": "address",
-						"name": "dataUsageContractAddress",
-						"type": "address"
-					},
-					{
-						"indexed": true,
-						"internalType": "string",
-						"name": "actorID",
-						"type": "string"
-					},
-					{
-						"indexed": false,
-						"internalType": "string",
-						"name": "userID",
-						"type": "string"
+						"internalType": "struct DataUsage",
+						"name": "dataUsage",
+						"type": "tuple"
 					},
 					{
 						"indexed": false,
@@ -91,47 +82,8 @@
 						"type": "bool"
 					}
 				],
-				"name": "UserAgree",
+				"name": "UserVote",
 				"type": "event"
-			},
-			{
-				"inputs": [],
-				"name": "actorID",
-				"outputs": [
-					{
-						"internalType": "string",
-						"name": "",
-						"type": "string"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "consent",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "dataUsageContractAddress",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
 			},
 			{
 				"inputs": [],
@@ -147,20 +99,26 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "usageID",
+						"type": "uint256"
+					}
+				],
 				"name": "retrieveDataUsage",
 				"outputs": [
 					{
 						"components": [
 							{
-								"internalType": "string",
-								"name": "actorID",
-								"type": "string"
+								"internalType": "address",
+								"name": "actorAddress",
+								"type": "address"
 							},
 							{
-								"internalType": "string",
-								"name": "userID",
-								"type": "string"
+								"internalType": "address",
+								"name": "userAddress",
+								"type": "address"
 							},
 							{
 								"internalType": "string",
@@ -192,36 +150,15 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "userAddress",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "userID",
-				"outputs": [
-					{
-						"internalType": "string",
-						"name": "",
-						"type": "string"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
 				"inputs": [
 					{
+						"internalType": "uint256",
+						"name": "usageID",
+						"type": "uint256"
+					},
+					{
 						"internalType": "bool",
-						"name": "_consent",
+						"name": "consent",
 						"type": "bool"
 					}
 				],
@@ -240,10 +177,10 @@
 				"getContractAddress()": {
 					"details": "get the current contract address"
 				},
-				"retrieveDataUsage()": {
+				"retrieveDataUsage(uint256)": {
 					"details": "The Retrieve function uses the address of a GDPR compliance contract to provide a data subject information recorded by an actor in the Blockchain"
 				},
-				"vote(bool)": {
+				"vote(uint256,bool)": {
 					"details": "submits a data subject’s votes (positive/negative consent) to the Blockchain"
 				}
 			},
@@ -258,7 +195,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/SM_Agreement.sol": "AgreementContract"
+			"contracts/SC_Agreement.sol": "AgreementContract"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -272,20 +209,20 @@
 		"remappings": []
 	},
 	"sources": {
-		"contracts/SM_Agreement.sol": {
-			"keccak256": "0x9eab50e751e1d676e367e76d778410410fbfc1682309d8453bbea7d172b60106",
+		"contracts/SC_Agreement.sol": {
+			"keccak256": "0xf6f2cb1e03b9337c457fbe84715d477281969c67543b6921553157aabcade748",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://28ebe30ee54d1d699d8a4e64286512de4768dcfa4512c552d20307c734f929d2",
-				"dweb:/ipfs/QmXxmV2sQVz3XF1fET9MUoyKJGHyQaLdXy7CEJnhc1ty2G"
+				"bzz-raw://5f8ce4a7fcdb401c1781b6256ff763d88fde3f3b48a0582e22482258d7f61c9e",
+				"dweb:/ipfs/QmVSiG7Mf4xC3ikRYk16SV3vrCDCRd78YcRJfWZXHzBgGb"
 			]
 		},
-		"contracts/SM_DataUsage.sol": {
-			"keccak256": "0x2830da2f637a84d775f8c8837dc72ab4844a9e7a21578f819432cbd56c81537e",
+		"contracts/SC_DataUsage.sol": {
+			"keccak256": "0xb9ffec2cbc71c43eaa019fdd27497d3c2a3c0ec06b6dc9c43960dd9a3877bf2f",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://c00ee0426331d124252938aa730f3eb5382ec6d64be9d6a9a26f0a702bc6aa46",
-				"dweb:/ipfs/QmXC1yswtw2fT96UEKnnQgPXBA8SCb94ZL6v5EkNhM4PW3"
+				"bzz-raw://6505bdc5fc6c62479e8742e925461af8d9d3d2b4f775c57616d2ef514931c21f",
+				"dweb:/ipfs/QmRHSubhP4RR2Rcr3EqKeBj9KFcx99Hcv1wNVCSSzDoo7H"
 			]
 		}
 	},
