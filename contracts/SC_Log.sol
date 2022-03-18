@@ -61,11 +61,11 @@ contract LogContract {
         emit LogDataProcess(actorAddress, userAddress, usageID, serviceName, operation, processedData);
 
         // Call verification contract verify() to check the violation
-        VerificationContract verificationContract = VerificationContract(dataUsageContractAddress, agreementContractAddress, address(this));
+        VerificationContract verificationContract = new VerificationContract(dataUsageContractAddress, agreementContractAddress);
         verificationContract.verify(actorAddress, userAddress, usageID, serviceName, operation, processedData);
     }
 
-    function retrieveLog(uint usageID) public returns (LogContent memory) {
+    function retrieveLog(uint usageID) public view returns (LogContent memory) {
         return logs[usageID];
     }
 }

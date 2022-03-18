@@ -19,6 +19,7 @@ struct DataUsage {
 Represent user's vote for data usage by an actor.
 */
 struct Vote {
+    address actorAddress;
     address userAddress;
     uint usageID;
     bool consent;

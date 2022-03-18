@@ -26,7 +26,7 @@ contract DataUsageContract {
     /**
     *  Using this address, an actor can access the contract and execute function (Gα) based on its purpose of data processing.
     */
-    function useData (address userAddress, string memory serviceName, string memory servicePurpose, string memory operation, string[] memory personalData) public returns (uint) {
+    function useData(address userAddress, string memory serviceName, string memory servicePurpose, string memory operation, string[] memory personalData) public returns (uint) {
         address actorAddress = msg.sender;
         DataUsage memory dataUsage = DataUsage(actorAddress, userAddress, serviceName, servicePurpose, operation, personalData);       
         usageID++;
