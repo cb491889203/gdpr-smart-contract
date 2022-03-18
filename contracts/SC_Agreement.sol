@@ -49,8 +49,8 @@ contract AgreementContract {
         // Retrieve dataUsage from the DataUsageContract
         DataUsage memory dataUsage = dataUsageContract.retrieveDataUsage(usageID);
 
-        // require (dataUsage.userAddress != address(0x0), "Can't find this data usage record with the usageID");
-        // require (msg.sender == dataUsage.userAddress, "The user doesn't belong to this data usage record");
+        require (dataUsage.userAddress != address(0x0), "Can't find this data usage record with the usageID");
+        require (msg.sender == dataUsage.userAddress, "The user doesn't belong to this data usage record");
         // require (votes[usageID].userAddress != address(0x0), "User have already vote for this data usage!");
 
         votes[usageID] = Vote(dataUsage.actorAddress, msg.sender, usageID, consent);

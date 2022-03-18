@@ -4,6 +4,7 @@ pragma solidity >=0.7.0 <0.9.0;
 
 import "./SC_Agreement.sol";
 import "./SC_DataUsage.sol";
+import "./SC_Log.sol";
 import "./Lib.sol";
 
 /**
@@ -12,62 +13,71 @@ import "./Lib.sol";
  */
 contract VerificationContract {
 
-    DataUsageContract private dc;
-    AgreementContract private ac;
+    DataUsageContract private dataUsageContract;
+    AgreementContract private agreementContract;
+    LogContract private logContract;
+    // Store all the results
+    VerifiedResult[] public results;
 
-    // Store all the violators in each 
-
-
-    constructor(address dcAdd, address acAdd) {
-        dc = DataUsageContract(dcAdd);
-        ac = AgreementContract(acAdd);
+    constructor(address dcAdd, address acAdd, address lcAdd) {
+        dataUsageContract = DataUsageContract(dcAdd);
+        agreementContract = AgreementContract(acAdd);
+        logContract = LogContract(lcAdd);
     }
 
     // event for EVM logging
-    event Verification(address indexed dataUsageContractAddress,address indexed agreementContractAddress, address violatorAddress);
+    event Verification(LogContent log, DataUsage dataUsage, Vote vote, address violatorAddress);
     event ViolationDectected(address violator,string message);
 
-    function verify(address actorAddress, address userAddress, uint usageID, 
-        string memory serviceName, string memory operation, string[] memory processedData) public returns (address){
+    function verify(uint logID) public returns (address){
 
         address violator;
-        DataUsage memory dataUsage = dc.retrieveDataUsage(usageID);
-        Vote memory vote = ac.retrieveVote(usageID);
+        // get the log specified by this logID from LogContract 
+        LogContent memory log = logContract.retrieveLog(logID);
+        require(log.logID !=0, "The log does not exist!");
+
+        uint usageID = log.usageID;
+        DataUsage memory dataUsage = dataUsageContract.retrieveDataUsage(usageID);
+        Vote memory vote = agreementContract.retrieveVote(usageID);
+        
 
         //whether or not the addresses of actors recorded by the log smart contract conform to 
         //those actors who have been given the consent by the users through the agreement 
         //smart contract.
-        if(userAddress!=dataUsage.userAddress || userAddress!=vote.userAddress){
-            violator = actorAddress;
+        if(log.userAddress == address(0x0) || log.userAddress != dataUsage.userAddress || log.userAddress != vote.userAddress){
+            violator = log.actorAddress;
             emit ViolationDectected(violator,"user address inconformity");
         }   
-        else if(actorAddress!=dataUsage.actorAddress || actorAddress!=vote.actorAddress){
-            violator = actorAddress;
+        else if(log.actorAddress == address(0x0) || log.actorAddress!=dataUsage.actorAddress || log.actorAddress!=vote.actorAddress){
+            violator = log.actorAddress;
             emit ViolationDectected(violator,"actor address inconformity");
         }
         //whether or not the operations of each actor recorded by the log contract conform to 
         //those operations which were recorded via the data usage contract and were given the 
         //users’ consent through the agreement contract.
-        else if(!isStrEqual(dataUsage.operation, operation)){
-            violator = actorAddress;
+        else if(!isStrEqual(dataUsage.operation, log.operation)){
+            violator = log.actorAddress;
             emit ViolationDectected(violator,"operation record inconformity");
         }
         //whether or not the processed personal data that were recorded by the log contract 
         //were already confirmed by the users through the agreement contract.
-        else if(!isStrArrayEqual(processedData, dataUsage.personalData)){
-            violator = actorAddress;
+        else if(!isStrArrayEqual(log.processedData, dataUsage.personalData)){
+            violator = log.actorAddress;
             emit ViolationDectected(violator,"request processed data inconformity");
         }
         //check whether the request above is confirmed by the user subject  
         else if(!vote.consent){
-            violator = actorAddress;
+            violator = log.actorAddress;
             emit ViolationDectected(violator,"data usage is not confirmed by user");
         }
-       else {
+        else {
             violator = address(0x0);
-       }  
+        }  
             
-        emit Verification(address(dc), address(ac), violator);
+        emit Verification(log, dataUsage, vote, violator);
+
+        // store the result.
+        results.push(VerifiedResult(logID, violator));
         return violator;
     }
 
@@ -80,7 +90,6 @@ contract VerificationContract {
         for(uint i = 0; i < aa.length; i ++) {
             if(aa[i] != bb[i]) return false;
         }
- 
         return true;
     }
 
@@ -106,8 +115,7 @@ contract VerificationContract {
         } else {
             emit ViolationDectected(address(0), "a.length > b.length");
             return false;
-        }
-            
+        }  
     }
 
 }

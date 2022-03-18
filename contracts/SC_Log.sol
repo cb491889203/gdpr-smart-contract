@@ -17,11 +17,12 @@ contract LogContract {
     DataUsageContract private dataUsageContract; 
     AgreementContract private agreementContract;
     // Store all the logs 
-    mapping(uint => LogContent) private logs;
+    LogContent[] private logs;
+    uint logID = 0;
 
     
     // event for EVM logging
-    event LogDataProcess(address actorAddress, address userAddress, uint usageID, string serviceName, string operation, string[] processedData);
+    event LogDataProcess(uint logID, address actorAddress, address userAddress, uint usageID, string serviceName, string operation, string[] processedData);
     
     /**
      * @dev generate a new contract
@@ -48,24 +49,17 @@ contract LogContract {
      *  act involved, the executed operation α, and the data d that has been processed. T
      */
     function log(address actorAddress, address userAddress, uint usageID, string memory serviceName, string memory operation, string[] memory processedData) public {
-
-        logs[usageID] = LogContent(actorAddress, userAddress, usageID, serviceName, operation, processedData);
+        // add a new log to logs array
+        logID++;
+        logs.push(LogContent(logID, actorAddress, userAddress, usageID, serviceName, operation, processedData));
 
         // Notify user subject
-        attestation(actorAddress, userAddress, usageID, serviceName, operation, processedData);
-
-    }
-
-    function attestation(address actorAddress, address userAddress, uint usageID, string memory serviceName, string memory operation, string[] memory processedData) internal {
         // send event to User Subject
-        emit LogDataProcess(actorAddress, userAddress, usageID, serviceName, operation, processedData);
+        emit LogDataProcess(logID, actorAddress, userAddress, usageID, serviceName, operation, processedData);
 
-        // Call verification contract verify() to check the violation
-        VerificationContract verificationContract = new VerificationContract(dataUsageContractAddress, agreementContractAddress);
-        verificationContract.verify(actorAddress, userAddress, usageID, serviceName, operation, processedData);
     }
 
-    function retrieveLog(uint usageID) public view returns (LogContent memory) {
-        return logs[usageID];
+    function retrieveLog(uint logID) public view returns (LogContent memory) {
+        return logs[logID];
     }
 }

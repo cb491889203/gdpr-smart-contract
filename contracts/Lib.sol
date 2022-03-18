@@ -29,6 +29,7 @@ struct Vote {
 Represent the log of processed persoanl data by an actor
 */
 struct LogContent {
+    uint logID;
     address actorAddress; 
     address userAddress;
     uint usageID;
@@ -36,4 +37,10 @@ struct LogContent {
     string operation;
     // ["name", "gender"]
     string[] processedData;
+}
+
+struct VerifiedResult {
+    uint logID;
+    // if violator is a valid actor address, it means this actor is a violator. otherwise, this log is passed the verification.
+    address violator;
 }
