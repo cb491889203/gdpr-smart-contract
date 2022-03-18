@@ -59,8 +59,8 @@ contract LogContract {
 
     }
 
-    function retrieveLog(uint logID) public view returns (LogContent memory) {
-        return logs[logID];
+    function retrieveLog(uint _logID) public view returns (LogContent memory) {
+        return logs[_logID];
     }
 
     function retrieveLogs() public view returns (LogContent[] memory) {
