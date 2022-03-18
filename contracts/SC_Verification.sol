@@ -17,7 +17,7 @@ contract VerificationContract {
     AgreementContract private agreementContract;
     LogContract private logContract;
     // Store all the results
-    VerifiedResult[] public results;
+    VerifiedResult[] private results;
 
     constructor(address dcAdd, address acAdd, address lcAdd) {
         dataUsageContract = DataUsageContract(dcAdd);
@@ -28,6 +28,10 @@ contract VerificationContract {
     // event for EVM logging
     event Verification(LogContent log, DataUsage dataUsage, Vote vote, address violatorAddress);
     event ViolationDectected(address violator,string message);
+
+    function retrieveResults() public view returns (VerifiedResult[] memory) {
+        return results;
+    }
 
     function verify(uint logID) public returns (address){
 

@@ -18,7 +18,7 @@ contract LogContract {
     AgreementContract private agreementContract;
     // Store all the logs 
     LogContent[] private logs;
-    uint logID = 0;
+    uint private logID = 0;
 
     
     // event for EVM logging
@@ -61,5 +61,9 @@ contract LogContract {
 
     function retrieveLog(uint logID) public view returns (LogContent memory) {
         return logs[logID];
+    }
+
+    function retrieveLogs() public view returns (LogContent[] memory) {
+        return logs;
     }
 }
