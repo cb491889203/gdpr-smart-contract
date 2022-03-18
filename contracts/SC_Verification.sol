@@ -33,7 +33,7 @@ contract VerificationContract {
         return results;
     }
 
-    function verify(uint logID) public returns (address){
+    function verify(uint logID) public {
 
         address violator;
         // get the log specified by this logID from LogContract 
@@ -48,7 +48,7 @@ contract VerificationContract {
         //whether or not the addresses of actors recorded by the log smart contract conform to 
         //those actors who have been given the consent by the users through the agreement 
         //smart contract.
-        if(log.userAddress == address(0x0) || log.userAddress != dataUsage.userAddress || log.userAddress != vote.userAddress){
+        if(log.userAddress == address(0x0) || log.userAddress != dataUsage.userAddress ){
             violator = log.actorAddress;
             emit ViolationDectected(violator,"user address inconformity");
         }   
@@ -70,7 +70,7 @@ contract VerificationContract {
             emit ViolationDectected(violator,"request processed data inconformity");
         }
         //check whether the request above is confirmed by the user subject  
-        else if(!vote.consent){
+        else if(!vote.consent|| log.userAddress != vote.userAddress){
             violator = log.actorAddress;
             emit ViolationDectected(violator,"data usage is not confirmed by user");
         }
@@ -82,7 +82,6 @@ contract VerificationContract {
 
         // store the result.
         results.push(VerifiedResult(logID, violator));
-        return violator;
     }
 
 
