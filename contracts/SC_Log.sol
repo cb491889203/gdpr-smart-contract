@@ -34,7 +34,6 @@ contract LogContract {
         dataUsageContract = DataUsageContract(dataUsageContractAddress);
         agreementContract = AgreementContract(agreementContractAddress);
     }
-
     /**
      * @dev get the current contract address
      */
@@ -53,14 +52,13 @@ contract LogContract {
         logID++;
         logs.push(LogContent(logID, actorAddress, userAddress, usageID, serviceName, operation, processedData));
 
-        // Notify user subject
-        // send event to User Subject
+        // send event
         emit LogDataProcess(logID, actorAddress, userAddress, usageID, serviceName, operation, processedData);
-
     }
 
     function retrieveLog(uint _logID) public view returns (LogContent memory) {
-        return logs[_logID];
+        uint logIndex = _logID - 1;
+        return logs[logIndex];
     }
 
     function retrieveLogs() public view returns (LogContent[] memory) {
