@@ -16,7 +16,7 @@ contract AgreementContract {
 
     
     // event for EVM logging
-    event UserVote(address indexed userAddress, address indexed actorAddress, uint indexed usageID, DataUsage dataUsage, bool consent);
+    event UserVote(address indexed userAddress, uint indexed usageID, bool consent);
     
     /**
      * @dev generate a new contract
@@ -46,16 +46,16 @@ contract AgreementContract {
      */
     function vote(uint usageID, bool consent) public {
         
-        // Retrieve dataUsage from the DataUsageContract
-        DataUsage memory dataUsage = dataUsageContract.retrieveDataUsage(usageID);
+        // // Retrieve dataUsage from the DataUsageContract
+        // DataUsage memory dataUsage = dataUsageContract.retrieveDataUsage(usageID);
 
-        require (dataUsage.userAddress != address(0x0), "Can't find this data usage record with the usageID");
-        require (msg.sender == dataUsage.userAddress, "The user doesn't belong to this data usage record");
-        require (votes[usageID].userAddress != address(0x0), "User have already vote for this data usage!");
+        // require (dataUsage.userAddress != address(0x0), "Can't find this data usage record with the usageID");
+        // require (msg.sender == dataUsage.userAddress, "The user doesn't belong to this data usage record");
+        // require (votes[usageID].userAddress != address(0x0), "User have already vote for this data usage!");
 
-        votes[usageID] = Vote(dataUsage.userAddress, usageID, consent);
+        votes[usageID] = Vote(msg.sender, usageID, consent);
 
         // Log the user's vote of Agreement contract
-        emit UserVote(msg.sender, dataUsage.actorAddress, usageID, dataUsage, consent);
+        emit UserVote(msg.sender, usageID, consent);
     }
 }
