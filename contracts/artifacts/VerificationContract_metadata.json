@@ -1,0 +1,328 @@
+{
+	"compiler": {
+		"version": "0.8.7+commit.e28d00a7"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "dcAdd",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "acAdd",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "lcAdd",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "logID",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address",
+								"name": "actorAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "userAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "usageID",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "serviceName",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "operation",
+								"type": "string"
+							},
+							{
+								"internalType": "string[]",
+								"name": "processedData",
+								"type": "string[]"
+							}
+						],
+						"indexed": false,
+						"internalType": "struct LogContent",
+						"name": "log",
+						"type": "tuple"
+					},
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "actorAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "userAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "string",
+								"name": "serviceName",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "servicePurpose",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "operation",
+								"type": "string"
+							},
+							{
+								"internalType": "string[]",
+								"name": "personalData",
+								"type": "string[]"
+							}
+						],
+						"indexed": false,
+						"internalType": "struct DataUsage",
+						"name": "dataUsage",
+						"type": "tuple"
+					},
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "actorAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "userAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "usageID",
+								"type": "uint256"
+							},
+							{
+								"internalType": "bool",
+								"name": "consent",
+								"type": "bool"
+							}
+						],
+						"indexed": false,
+						"internalType": "struct Vote",
+						"name": "vote",
+						"type": "tuple"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "violatorAddress",
+						"type": "address"
+					}
+				],
+				"name": "Verification",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "violator",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "message",
+						"type": "string"
+					}
+				],
+				"name": "ViolationDectected",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string[]",
+						"name": "a",
+						"type": "string[]"
+					},
+					{
+						"internalType": "string[]",
+						"name": "b",
+						"type": "string[]"
+					}
+				],
+				"name": "isStrArrayEqual",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "a",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "b",
+						"type": "string"
+					}
+				],
+				"name": "isStrEqual",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "retrieveResults",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "logID",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address",
+								"name": "violator",
+								"type": "address"
+							}
+						],
+						"internalType": "struct VerifiedResult[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "logID",
+						"type": "uint256"
+					}
+				],
+				"name": "verify",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"details": "retrieve value in a vriable",
+			"kind": "dev",
+			"methods": {},
+			"title": "Verifier",
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/SC_Verification.sol": "VerificationContract"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/Lib.sol": {
+			"keccak256": "0x598bc46e885b1ddd4d88fcbf5a063f71fa79ff215becdbc5d883e697afefa3cc",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://6ad71467b347c65f5052bd98347de5fcaf8d86904a8249344e721cb916850c06",
+				"dweb:/ipfs/QmQ6TJWCRZv6BFx665uhJn8z3zZnz8Wn9yGcFhetfgLfct"
+			]
+		},
+		"contracts/SC_Agreement.sol": {
+			"keccak256": "0xe2213a1f92d2803e85f33ab9ada27842862ba9ee584d02687834cb76c41919fc",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://5febc244546b81a030c761849d271a1e54771558151cfc7e3bee795f42881b31",
+				"dweb:/ipfs/QmWUb9ABEtuS1zpWNP6SXVXQ6k3NP6aeYwSfsGYrhryyxo"
+			]
+		},
+		"contracts/SC_DataUsage.sol": {
+			"keccak256": "0xc44cbe80953e411bdedb16b339ea2de73433d5ba0273057ec5c8ccc0d4751801",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://56d7e5906df9bbbdc0f702fc72a0a598de07492934585783bb4055e1140e0785",
+				"dweb:/ipfs/Qmdt5oRcuoG24SxTjakbFhpcg456uAVHh764TAx3ZUnEP4"
+			]
+		},
+		"contracts/SC_Log.sol": {
+			"keccak256": "0xc8960184848bb6e35a9c524be15c5cb65d242d4a1a7125ac10739857ebe97e5a",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://de3cf011649a0789ae0ffe01477f080d03af1842c4ec0ce3586b032024e4d7a8",
+				"dweb:/ipfs/QmZyRecwC4ohUcpWyVFxgxJfrB1zSN5K5mKiLtUZxret8v"
+			]
+		},
+		"contracts/SC_Verification.sol": {
+			"keccak256": "0xbe846962970b3dabe4ceb10f0fe7e827370da86734ee04612b58b615ab81262e",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://3d4b58f183ad4b78036abbb7d7d90056f5f8e9b08050ef84b8604e98237c6cb9",
+				"dweb:/ipfs/QmWTgSzE1zsHUEKujD3MVgMTNhtVejmfu6zmSrKNAFcRGq"
+			]
+		}
+	},
+	"version": 1
+}

@@ -141,11 +141,6 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "actorAddress",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
 						"name": "userAddress",
 						"type": "address"
 					},
@@ -200,7 +195,7 @@
 		"userdoc": {
 			"kind": "user",
 			"methods": {
-				"useData(address,address,string,string,string,string[])": {
+				"useData(address,string,string,string,string[])": {
 					"notice": "Using this address, an actor can access the contract and execute function (Gα) based on its purpose of data processing."
 				}
 			},
@@ -224,12 +219,20 @@
 		"remappings": []
 	},
 	"sources": {
-		"contracts/SC_DataUsage.sol": {
-			"keccak256": "0xb9ffec2cbc71c43eaa019fdd27497d3c2a3c0ec06b6dc9c43960dd9a3877bf2f",
+		"contracts/Lib.sol": {
+			"keccak256": "0x598bc46e885b1ddd4d88fcbf5a063f71fa79ff215becdbc5d883e697afefa3cc",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://6505bdc5fc6c62479e8742e925461af8d9d3d2b4f775c57616d2ef514931c21f",
-				"dweb:/ipfs/QmRHSubhP4RR2Rcr3EqKeBj9KFcx99Hcv1wNVCSSzDoo7H"
+				"bzz-raw://6ad71467b347c65f5052bd98347de5fcaf8d86904a8249344e721cb916850c06",
+				"dweb:/ipfs/QmQ6TJWCRZv6BFx665uhJn8z3zZnz8Wn9yGcFhetfgLfct"
+			]
+		},
+		"contracts/SC_DataUsage.sol": {
+			"keccak256": "0xc44cbe80953e411bdedb16b339ea2de73433d5ba0273057ec5c8ccc0d4751801",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://56d7e5906df9bbbdc0f702fc72a0a598de07492934585783bb4055e1140e0785",
+				"dweb:/ipfs/Qmdt5oRcuoG24SxTjakbFhpcg456uAVHh764TAx3ZUnEP4"
 			]
 		}
 	},

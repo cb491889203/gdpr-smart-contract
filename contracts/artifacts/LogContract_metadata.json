@@ -11,6 +11,11 @@
 						"internalType": "address",
 						"name": "_dataUsageContractAddress",
 						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_agreementContractAddress",
+						"type": "address"
 					}
 				],
 				"stateMutability": "nonpayable",
@@ -19,6 +24,12 @@
 			{
 				"anonymous": false,
 				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "logID",
+						"type": "uint256"
+					},
 					{
 						"indexed": false,
 						"internalType": "address",
@@ -38,42 +49,22 @@
 						"type": "uint256"
 					},
 					{
-						"components": [
-							{
-								"internalType": "address",
-								"name": "actorAddress",
-								"type": "address"
-							},
-							{
-								"internalType": "address",
-								"name": "userAddress",
-								"type": "address"
-							},
-							{
-								"internalType": "string",
-								"name": "serviceName",
-								"type": "string"
-							},
-							{
-								"internalType": "string",
-								"name": "servicePurpose",
-								"type": "string"
-							},
-							{
-								"internalType": "string",
-								"name": "operation",
-								"type": "string"
-							},
-							{
-								"internalType": "string[]",
-								"name": "personalData",
-								"type": "string[]"
-							}
-						],
 						"indexed": false,
-						"internalType": "struct DataUsage",
-						"name": "dataUsage",
-						"type": "tuple"
+						"internalType": "string",
+						"name": "serviceName",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "operation",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "string[]",
+						"name": "processedData",
+						"type": "string[]"
 					}
 				],
 				"name": "LogDataProcess",
@@ -108,11 +99,132 @@
 						"internalType": "uint256",
 						"name": "usageID",
 						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "serviceName",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "operation",
+						"type": "string"
+					},
+					{
+						"internalType": "string[]",
+						"name": "processedData",
+						"type": "string[]"
 					}
 				],
 				"name": "log",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_logID",
+						"type": "uint256"
+					}
+				],
+				"name": "retrieveLog",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "logID",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address",
+								"name": "actorAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "userAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "usageID",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "serviceName",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "operation",
+								"type": "string"
+							},
+							{
+								"internalType": "string[]",
+								"name": "processedData",
+								"type": "string[]"
+							}
+						],
+						"internalType": "struct LogContent",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "retrieveLogs",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "logID",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address",
+								"name": "actorAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "userAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "usageID",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "serviceName",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "operation",
+								"type": "string"
+							},
+							{
+								"internalType": "string[]",
+								"name": "processedData",
+								"type": "string[]"
+							}
+						],
+						"internalType": "struct LogContent[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			}
 		],
@@ -125,7 +237,7 @@
 				"getContractAddress()": {
 					"details": "get the current contract address"
 				},
-				"log(address,address,uint256)": {
+				"log(address,address,uint256,string,string,string[])": {
 					"details": "This function collects information about operations carried out in the container, thereby supporting a subset of the data usage relation set P0 ⊆ P  described in Def. 2, and submits it into the Blockchain. Such  information includes the address of the actor (cloud provider)  act involved, the executed operation α, and the data d that has been processed. T"
 				}
 			},
@@ -154,20 +266,44 @@
 		"remappings": []
 	},
 	"sources": {
-		"contracts/SC_DataUsage.sol": {
-			"keccak256": "0xb9ffec2cbc71c43eaa019fdd27497d3c2a3c0ec06b6dc9c43960dd9a3877bf2f",
+		"contracts/Lib.sol": {
+			"keccak256": "0x598bc46e885b1ddd4d88fcbf5a063f71fa79ff215becdbc5d883e697afefa3cc",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://6505bdc5fc6c62479e8742e925461af8d9d3d2b4f775c57616d2ef514931c21f",
-				"dweb:/ipfs/QmRHSubhP4RR2Rcr3EqKeBj9KFcx99Hcv1wNVCSSzDoo7H"
+				"bzz-raw://6ad71467b347c65f5052bd98347de5fcaf8d86904a8249344e721cb916850c06",
+				"dweb:/ipfs/QmQ6TJWCRZv6BFx665uhJn8z3zZnz8Wn9yGcFhetfgLfct"
+			]
+		},
+		"contracts/SC_Agreement.sol": {
+			"keccak256": "0xe2213a1f92d2803e85f33ab9ada27842862ba9ee584d02687834cb76c41919fc",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://5febc244546b81a030c761849d271a1e54771558151cfc7e3bee795f42881b31",
+				"dweb:/ipfs/QmWUb9ABEtuS1zpWNP6SXVXQ6k3NP6aeYwSfsGYrhryyxo"
+			]
+		},
+		"contracts/SC_DataUsage.sol": {
+			"keccak256": "0xc44cbe80953e411bdedb16b339ea2de73433d5ba0273057ec5c8ccc0d4751801",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://56d7e5906df9bbbdc0f702fc72a0a598de07492934585783bb4055e1140e0785",
+				"dweb:/ipfs/Qmdt5oRcuoG24SxTjakbFhpcg456uAVHh764TAx3ZUnEP4"
 			]
 		},
 		"contracts/SC_Log.sol": {
-			"keccak256": "0x74f4aaeaf5c211c068cc98e461bd973d787715764d7acccfe451eef349627f3f",
+			"keccak256": "0xc8960184848bb6e35a9c524be15c5cb65d242d4a1a7125ac10739857ebe97e5a",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://a1e22569d6727bb8ab483035f768f727f719bbf9c48e2961e45aeabc7e939409",
-				"dweb:/ipfs/Qme72AXd9aEiMxeZ6V1bZqSboWBMrpjND9t9vUEwv7vUwQ"
+				"bzz-raw://de3cf011649a0789ae0ffe01477f080d03af1842c4ec0ce3586b032024e4d7a8",
+				"dweb:/ipfs/QmZyRecwC4ohUcpWyVFxgxJfrB1zSN5K5mKiLtUZxret8v"
+			]
+		},
+		"contracts/SC_Verification.sol": {
+			"keccak256": "0xbe846962970b3dabe4ceb10f0fe7e827370da86734ee04612b58b615ab81262e",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://3d4b58f183ad4b78036abbb7d7d90056f5f8e9b08050ef84b8604e98237c6cb9",
+				"dweb:/ipfs/QmWTgSzE1zsHUEKujD3MVgMTNhtVejmfu6zmSrKNAFcRGq"
 			]
 		}
 	},

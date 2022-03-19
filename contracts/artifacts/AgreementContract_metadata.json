@@ -27,12 +27,6 @@
 					},
 					{
 						"indexed": true,
-						"internalType": "address",
-						"name": "actorAddress",
-						"type": "address"
-					},
-					{
-						"indexed": true,
 						"internalType": "uint256",
 						"name": "usageID",
 						"type": "uint256"
@@ -106,7 +100,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "retrieveDataUsage",
+				"name": "retrieveVote",
 				"outputs": [
 					{
 						"components": [
@@ -121,27 +115,17 @@
 								"type": "address"
 							},
 							{
-								"internalType": "string",
-								"name": "serviceName",
-								"type": "string"
+								"internalType": "uint256",
+								"name": "usageID",
+								"type": "uint256"
 							},
 							{
-								"internalType": "string",
-								"name": "servicePurpose",
-								"type": "string"
-							},
-							{
-								"internalType": "string",
-								"name": "operation",
-								"type": "string"
-							},
-							{
-								"internalType": "string[]",
-								"name": "personalData",
-								"type": "string[]"
+								"internalType": "bool",
+								"name": "consent",
+								"type": "bool"
 							}
 						],
-						"internalType": "struct DataUsage",
+						"internalType": "struct Vote",
 						"name": "",
 						"type": "tuple"
 					}
@@ -177,7 +161,7 @@
 				"getContractAddress()": {
 					"details": "get the current contract address"
 				},
-				"retrieveDataUsage(uint256)": {
+				"retrieveVote(uint256)": {
 					"details": "The Retrieve function uses the address of a GDPR compliance contract to provide a data subject information recorded by an actor in the Blockchain"
 				},
 				"vote(uint256,bool)": {
@@ -209,20 +193,28 @@
 		"remappings": []
 	},
 	"sources": {
-		"contracts/SC_Agreement.sol": {
-			"keccak256": "0xf6f2cb1e03b9337c457fbe84715d477281969c67543b6921553157aabcade748",
+		"contracts/Lib.sol": {
+			"keccak256": "0x598bc46e885b1ddd4d88fcbf5a063f71fa79ff215becdbc5d883e697afefa3cc",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://5f8ce4a7fcdb401c1781b6256ff763d88fde3f3b48a0582e22482258d7f61c9e",
-				"dweb:/ipfs/QmVSiG7Mf4xC3ikRYk16SV3vrCDCRd78YcRJfWZXHzBgGb"
+				"bzz-raw://6ad71467b347c65f5052bd98347de5fcaf8d86904a8249344e721cb916850c06",
+				"dweb:/ipfs/QmQ6TJWCRZv6BFx665uhJn8z3zZnz8Wn9yGcFhetfgLfct"
+			]
+		},
+		"contracts/SC_Agreement.sol": {
+			"keccak256": "0xe2213a1f92d2803e85f33ab9ada27842862ba9ee584d02687834cb76c41919fc",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://5febc244546b81a030c761849d271a1e54771558151cfc7e3bee795f42881b31",
+				"dweb:/ipfs/QmWUb9ABEtuS1zpWNP6SXVXQ6k3NP6aeYwSfsGYrhryyxo"
 			]
 		},
 		"contracts/SC_DataUsage.sol": {
-			"keccak256": "0xb9ffec2cbc71c43eaa019fdd27497d3c2a3c0ec06b6dc9c43960dd9a3877bf2f",
+			"keccak256": "0xc44cbe80953e411bdedb16b339ea2de73433d5ba0273057ec5c8ccc0d4751801",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://6505bdc5fc6c62479e8742e925461af8d9d3d2b4f775c57616d2ef514931c21f",
-				"dweb:/ipfs/QmRHSubhP4RR2Rcr3EqKeBj9KFcx99Hcv1wNVCSSzDoo7H"
+				"bzz-raw://56d7e5906df9bbbdc0f702fc72a0a598de07492934585783bb4055e1140e0785",
+				"dweb:/ipfs/Qmdt5oRcuoG24SxTjakbFhpcg456uAVHh764TAx3ZUnEP4"
 			]
 		}
 	},
