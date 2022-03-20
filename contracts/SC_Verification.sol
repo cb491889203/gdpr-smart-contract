@@ -63,6 +63,10 @@ contract VerificationContract {
             violator = log.actorAddress;
             emit ViolationDectected(violator,"operation record inconformity");
         }
+        else if(!isStrEqual(dataUsage.serviceName, log.serviceName)){
+            violator = log.actorAddress;
+            emit ViolationDectected(violator,"serviceName record inconformity");
+        }
         //whether or not the processed personal data that were recorded by the log contract 
         //were already confirmed by the users through the agreement contract.
         else if(!isStrArrayEqual(log.processedData, dataUsage.personalData)){
