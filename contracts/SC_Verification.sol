@@ -96,7 +96,7 @@ contract VerificationContract {
         return true;
     }
 
-    function isStrArrayEqual(string[] memory a, string[] memory b) public returns (bool) {
+    function isStrArrayEqual(string[] memory a, string[] memory b) public pure returns (bool) {
         if(a.length <= b.length) {
             bool find;
             for(uint i=0; i<a.length; i++) {
@@ -105,18 +105,15 @@ contract VerificationContract {
                 for (uint j = 0; j < b.length; j++) {
                     if(isStrEqual(processed, b[j])) {
                         find = true;
-                        emit ViolationDectected(address(0), string(abi.encodePacked(processed, " -- ",b[j])));
                         break;
                     }
                 } 
                 if (!find) {
-                    emit ViolationDectected(address(0), string(abi.encodePacked(processed, " : can't find!!!")));
                     return false;
                 }
             }
             return true;
         } else {
-            emit ViolationDectected(address(0), "a.length > b.length");
             return false;
         }  
     }

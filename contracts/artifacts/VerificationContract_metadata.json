@@ -188,7 +188,7 @@
 						"type": "bool"
 					}
 				],
-				"stateMutability": "nonpayable",
+				"stateMutability": "pure",
 				"type": "function"
 			},
 			{
@@ -308,19 +308,19 @@
 			]
 		},
 		"contracts/SC_Log.sol": {
-			"keccak256": "0xc8960184848bb6e35a9c524be15c5cb65d242d4a1a7125ac10739857ebe97e5a",
+			"keccak256": "0x90118bc42e9452af9070a0f87599f440ab00a5a2be314a36bcf2d5e4dd1befba",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://de3cf011649a0789ae0ffe01477f080d03af1842c4ec0ce3586b032024e4d7a8",
-				"dweb:/ipfs/QmZyRecwC4ohUcpWyVFxgxJfrB1zSN5K5mKiLtUZxret8v"
+				"bzz-raw://d4f984ab3ee6cf2e56d0514f7d527c1ff9dc7b69e5904c9eb3887f93a949c466",
+				"dweb:/ipfs/QmNR9zoFyBK29ifJous844kyRLh1Pp3c2hJKzmFXZEBcyU"
 			]
 		},
 		"contracts/SC_Verification.sol": {
-			"keccak256": "0xbe846962970b3dabe4ceb10f0fe7e827370da86734ee04612b58b615ab81262e",
+			"keccak256": "0x6090018ceb659c3fba6282f19cb927ea9ee667cd10663a9b6db99a07664c2d8e",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://3d4b58f183ad4b78036abbb7d7d90056f5f8e9b08050ef84b8604e98237c6cb9",
-				"dweb:/ipfs/QmWTgSzE1zsHUEKujD3MVgMTNhtVejmfu6zmSrKNAFcRGq"
+				"bzz-raw://5cff87298d00072aa78e3dca68ecc802156a89ec8ec1fa0d6361afdd4ebfcdd2",
+				"dweb:/ipfs/QmPC3gS163NuLZdCVQE9c7kQXXqo5w7gFEdtKGZo1eWUCN"
 			]
 		}
 	},

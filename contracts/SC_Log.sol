@@ -22,7 +22,7 @@ contract LogContract {
 
     
     // event for EVM logging
-    event LogDataProcess(uint logID, address actorAddress, address userAddress, uint usageID, string serviceName, string operation, string[] processedData);
+    event LogProcessed(uint indexed logID);
     
     /**
      * @dev generate a new contract
@@ -53,7 +53,7 @@ contract LogContract {
         logs.push(LogContent(logID, actorAddress, userAddress, usageID, serviceName, operation, processedData));
 
         // send event
-        emit LogDataProcess(logID, actorAddress, userAddress, usageID, serviceName, operation, processedData);
+        emit LogProcessed(logID);
     }
 
     function retrieveLog(uint _logID) public view returns (LogContent memory) {
